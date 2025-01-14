@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Datos Seriales</title>
+</head>
+<body>
+    <div id="dataContainer">
+        Último dato serial: <span id="serialData"></span>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('serialData', function(data) {
+            document.getElementById('serialData').textContent = data;
+        });
+    </script>
+</body>
+</html>

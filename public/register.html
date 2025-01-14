@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Registro de Usuario</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <div class="form-group">
+                <label for="userType">Tipo de Usuario (0 o 1):</label>
+                <input type="number" class="form-control" id="userType" required>
+            </div>
+            <div class="form-group">
+                <label for="boleta">Boleta:</label>
+                <input type="number" class="form-control" id="boleta" required>
+            </div>
+            <div class="form-group">
+                <label for="casillero">Casillero:</label>
+                <input type="text" class="form-control" id="casillero" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const password = document.getElementById('password').value;
+            const userType = document.getElementById('userType').value;
+            const boleta = document.getElementById('boleta').value;
+            const casillero = document.getElementById('casillero').value;
+
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, password, userType, boleta, casillero })
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/login';
+                } else {
+                    alert('Error al registrar el usuario');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

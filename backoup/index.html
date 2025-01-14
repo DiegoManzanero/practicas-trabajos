@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cambio de Color</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cambio de Color</h1>
+    <div class="container">
+        <div id="square1" class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        function obtenerUltimoDato() {
+            // Hacer una solicitud HTTP GET para obtener los datos desde el servidor
+            axios.get('/datos')
+                .then(function(response) {
+                    const datos = response.data;
+
+                    // Obtener el último dato (suponiendo que 'datos' está ordenado por 'id' o 'fecha' descendente)
+                    const ultimoDato = datos.length > 0 ? datos[datos.length - 1] : null;
+
+                    if (ultimoDato) {
+                        console.log('Último dato:', ultimoDato.valor);
+
+                        // Cambiar el color del primer recuadro si el último dato es '0'
+                        if (ultimoDato.valor === '0') {
+                            document.getElementById('square1').style.backgroundColor = 'green';
+                            setTimeout(function() {
+                                document.getElementById('square1').style.backgroundColor = 'red';
+                            }, 5000); // 5000 milisegundos = 5 segundos
+                        }
+                    } else {
+                        console.log('No hay datos en la base de datos.');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error al obtener los datos:', error);
+                });
+        }
+
+        // Llamar a la función para obtener el último dato inicialmente y luego cada 2 segundos
+        obtenerUltimoDato();
+        setInterval(obtenerUltimoDato, 2000); // 2000 milisegundos = 2 segundos
+    </script>
+</body>
+</html>
